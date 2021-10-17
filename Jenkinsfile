@@ -26,12 +26,12 @@ pipeline{
         stage("Make archives"){
             steps{
                 sh "mkdir -p archives"
-                sh "tar --exclude=Week1 --exclude=.git --exclude=www/js --exclude=www/css --exclude=archives -czvf archives/results.tgz ."
+                sh "tar --exclude=Week2_CI_CD_tools --exclude=Week1 --exclude=.git --exclude=www/js --exclude=www/css --exclude=archives -czvf archives/results.tgz ."
                 archiveArtifacts artifacts: "archives/results.tgz", allowEmptyArchive: false, fingerprint: true, onlyIfSuccessful: true
             }
         }
 
-        stage("publish"){
+        stage("Publishing"){
             steps{
                 rtUpload (
                     serverId: "JFrog", spec:
