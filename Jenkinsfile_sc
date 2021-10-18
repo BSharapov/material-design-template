@@ -1,4 +1,5 @@
 node("worker"){
+    tool name: 'nodejs', type: 'nodejs'
     stage("Parallel compressing"){
        steps = ["js" : {sh "ls www/js | xargs -I {} uglifyjs www/js/{} -co www/min/{}"},
                 "css" : {sh "ls www/css | xargs -I {} cleancss -o www/min/{}"}]
