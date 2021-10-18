@@ -2,9 +2,9 @@ node("worker"){
     tool name: 'nodejs', type: 'nodejs'
     stage("Parallel compressing"){
        env.NODE = tool "nodejs"
-       steps = ["js" : {sh "ls www/js | xargs -I {} $NODE/uglifyjs www/js/{} -co www/min/{}"},
-                "css" : {sh "ls www/css | xargs -I {} $NODE/cleancss -o www/min/{}"}]
-        parallel steps
+       parallel_steps = [ "js" : {sh '${NODE}/bin/uglifyjs ./www/js/* -c -o ./www/min/compressed-js.js'},
+                            "css" : {sh '${NODE}/bin/cleancss ./www/css/* -o ./www/min/compressed-css.css'}]
+       parallel parallel_steps
     }
     stage("Make archives"){
         sh "mkdir -p archives"
