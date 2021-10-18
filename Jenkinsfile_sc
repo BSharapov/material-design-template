@@ -1,0 +1,25 @@
+node("worker"){
+    stage("Parallel compressing"){
+       steps = ["js" : {sh "ls www/js | xargs -I {} uglifyjs www/js/{} -co www/min/{}"},
+                "css" : {sh "ls www/css | xargs -I {} cleancss -o www/min/{}"}]
+        parallel steps
+    }
+    stage("Make archives"){
+        sh "mkdir -p archives"
+        sh "tar --exclude=Week2_CI_CD_tools --exclude=Week1 --exclude=.git* --exclude=www/js --exclude=www/css --exclude=archives -czvf archives/results.tgz ."
+        archiveArtifacts artifacts: "archives/results.tgz", allowEmptyArchive: false, fingerprint: true, onlyIfSuccessful: true
+     }
+     stage("Publishing"){
+         rtUpload (
+             serverId: "JFrog", spec:
+             """{
+                 "files": [
+                           {
+                            "pattern": "archives/results.tgz",
+                            "target": "default-generic-local/artifacts_${BUILD_ID}.tgz"
+                           }
+                          ]
+              }"""
+          )
+     }
+}
