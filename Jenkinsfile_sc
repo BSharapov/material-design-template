@@ -2,6 +2,7 @@ node("worker"){
     tool name: 'nodejs', type: 'nodejs'
     stage("Parallel compressing"){
        env.NODE = tool "nodejs"
+       env.PATH=$PATH:${env.NODE}
        parallel_steps = [ "js" : {sh '${NODE}/bin/uglifyjs ./www/js/* -c -o ./www/min/compressed-js.js'},
                             "css" : {sh '${NODE}/bin/cleancss ./www/css/* -o ./www/min/compressed-css.css'}]
        parallel parallel_steps
