@@ -49,6 +49,8 @@
 ### - Added and configured webhook 
 ![Webhook](https://github.com/BSharapov/material-design-template/blob/master/Week2_CI_CD_tools/webhook.PNG)
 ***
+![Webhook](https://github.com/BSharapov/material-design-template/blob/master/Week2_CI_CD_tools/webhook._example.PNG)
+***
 ![Webhook](https://github.com/BSharapov/material-design-template/blob/master/Week2_CI_CD_tools/webhook_trigger.PNG)
 ***
 ## * Use scripted pipeline instead of declarative
