@@ -1,8 +1,9 @@
 node("worker"){
     tool name: 'nodejs', type: 'nodejs'
     stage("Parallel compressing"){
-       steps = ["js" : {sh "ls www/js | xargs -I {} uglifyjs www/js/{} -co www/min/{}"},
-                "css" : {sh "ls www/css | xargs -I {} cleancss -o www/min/{}"}]
+       env.NODE = tool "nodejs"
+       steps = ["js" : {sh "ls www/js | xargs -I {} $NODE/uglifyjs www/js/{} -co www/min/{}"},
+                "css" : {sh "ls www/css | xargs -I {} $NODE/cleancss -o www/min/{}"}]
         parallel steps
     }
     stage("Make archives"){
